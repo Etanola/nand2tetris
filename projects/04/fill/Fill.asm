@@ -11,4 +11,49 @@
 // 'white' in every pixel;
 // the screen should remain fully clear as long as no key is pressed.
 
-//// Replace this comment with your code.
+(MAINLOOP)
+    @KBD
+    D=M
+    @FILL
+    D;JNE
+    @CLEAN
+    0;JMP
+(FILL)
+    @SCREEN
+    D=A
+    @i
+    M=D         //i=screen(16384)
+(LOOP1)
+    @i
+    D=M
+    @KBD        //i<kbd(24576)なら続行
+    D=D-A
+    @MAINLOOP
+    D;JGE
+    @i
+    A=M
+    M=-1        //iのアドレスのビットをすべて1にする
+    @i
+    M=M+1
+    @LOOP1
+    0;JMP
+(CLEAN)
+    @SCREEN
+    D=A
+    @i
+    M=D         //i=screen(16384)
+(LOOP2)
+    @i
+    D=M
+    @KBD        //i<kbd(24576)なら続行
+    D=D-A
+    @MAINLOOP
+    D;JGE
+    @i
+    A=M
+    M=0        //iのアドレスのビットをすべて0にする
+    @i
+    M=M+1
+    @LOOP2
+    0;JMP
+
